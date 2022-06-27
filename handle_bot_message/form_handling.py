@@ -14,6 +14,7 @@ from localization import localize, request_screenshot_message_id, localize_rando
     donation_status_first_day_message_id, donation_status_after_24h_message_id, donation_status_after_1week_message_id, \
     campaign_message_id, type_start_to_start_message_id
 from session_handling import get_session, update_session
+from spreadsheets import add_to_spreadsheet_last_upload_data
 from telegram_bot import get_bot
 
 
@@ -163,6 +164,8 @@ class RequestContacts(FormStep):
             update.message.chat_id,
             localize(session, thanks_for_contacts_message_id),
             reply_markup=markup)
+
+        add_to_spreadsheet_last_upload_data(session)
         return HomeStep.__name__
 
 
