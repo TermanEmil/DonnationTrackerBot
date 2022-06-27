@@ -251,4 +251,7 @@ def resolve_form_step(
     if form_step_name == DonationStatus.__name__:
         return DonationStatus(bot)
 
+    if form_step_name == AboutCampaign.__name__:
+        return AboutCampaign(bot)
+
     return HomeStep(bot)
