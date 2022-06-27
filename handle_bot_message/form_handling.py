@@ -115,8 +115,12 @@ class RequestContacts(FormStep):
     def request(self, update: telegram.Update):
         session = get_session(update.message.chat_id)
 
+        options = [localize(session, no_need_for_confirmation_message_id)]
+        if session.contact is not None:
+            options.append(session.contact)
+
         markup = ReplyKeyboardMarkup(
-            [[localize(session, no_need_for_confirmation_message_id)]],
+            [options],
             one_time_keyboard=True,
             resize_keyboard=True)
 
