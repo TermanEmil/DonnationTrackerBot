@@ -111,10 +111,12 @@ thanks_images = {
 
 
 def localize(session: Session, message_id: str) -> str:
-    if message_id not in _messages[session.language]:
+    language = 'eng' if session.language is None else session.language
+    
+    if message_id not in _messages[language]:
         raise Exception("Invalid message id")
 
-    message = _messages[session.language][message_id]
+    message = _messages[language][message_id]
     return message
 
 
