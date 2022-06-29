@@ -47,7 +47,7 @@ _messages = {
         request_contacts_message_id: "Please, tell us your mail address if you are willing to be confirmed on what "
                                      "your donation will be spent for and get its photo proves",
         no_need_for_confirmation_message_id: "I don’t need to be confirmed",
-        thanks_for_contacts_message_id: "Thank you! You can check the status of your donation right here.",
+        thanks_for_contacts_message_id: "Thank you! You can check the status of your donation using /donation_status",
 
         photo_not_attached_message_id: "Photo not attached",
         request_a_new_donation_message_id: "To start a new donation type /new_donation",
@@ -93,7 +93,7 @@ _messages = {
                                      "підтвердження щодо того, на що буде витрачено твій донат, та побачити фотодоказ"
                                      " цього",
         no_need_for_confirmation_message_id: "Я не бажаю отримувати підтвердження",
-        thanks_for_contacts_message_id: "Дякую! Ти можеш перевірити статус свого донату безпосередньо тут.",
+        thanks_for_contacts_message_id: "Дякую! Ти можеш перевірити статус свого донату используя /donation_status",
 
         photo_not_attached_message_id: "Фото не додається",
         request_a_new_donation_message_id: "Чтобы начать новое пожертвование, введите /new_donation",
@@ -124,7 +124,7 @@ _messages = {
         payment_details_message_id: "Реквізити для оплати\n"
                                     "\n"
                                     "Банківська картка: {bank-card}\n"
-                                    "IBAN: {bank-iban}"
+                                    "IBAN: {bank-iban}\n"
                                     "\n"
                                     "Используйте /attach_donation далее"
     }

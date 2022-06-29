@@ -192,30 +192,18 @@ class RequestContacts(FormStep):
 
     def handle(self, update: telegram.Update) -> str:
         session = get_session(update.message.chat_id)
-        if update.message.text == localize(session, no_need_for_confirmation_message_id):
-            markup = ReplyKeyboardMarkup(
-                [[
-                    localize(session, about_campaign_message_id),
-                    localize(session, make_a_new_donation_message_id)
-                ]],
-                one_time_keyboard=True,
-                resize_keyboard=True)
-            self.bot.send_message(
-                update.message.chat_id,
-                localize(session, thanks_for_contacts_message_id),
-                reply_markup=markup)
-            return HomeStep.__name__
 
-        mail_regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-        if update.message.text is None or not re.fullmatch(mail_regex, update.message.text):
-            self.bot.send_message(
-                update.message.chat_id,
-                localize(session, invalid_email_message_id),
-                reply_markup=None)
-            return self.__class__.__name__
+        if update.message.text != localize(session, no_need_for_confirmation_message_id):
+            mail_regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+            if update.message.text is None or not re.fullmatch(mail_regex, update.message.text):
+                self.bot.send_message(
+                    update.message.chat_id,
+                    localize(session, invalid_email_message_id),
+                    reply_markup=None)
+                return self.__class__.__name__
 
-        session.contact = update.message.text
-        update_session(session)
+            session.contact = update.message.text
+            update_session(session)
 
         markup = ReplyKeyboardMarkup(
             [[
@@ -243,12 +231,6 @@ class DonationStatus(FormStep):
 
     def handle(self, update: telegram.Update) -> str:
         session = get_session(update.message.chat_id)
-        if session.upload_date is None:
-            self.bot.send_message(
-                update.message.chat_id,
-                localize(session, you_did_not_upload_confirmation_message_id),
-                reply_markup=None)
-            return HomeStep.__name__
 
         if session.contact is None:
             self.bot.send_message(
