@@ -35,6 +35,9 @@ thanks_1_message_id = 'thanks_1_message_id'
 thanks_2_message_id = 'thanks_2_message_id'
 thanks_3_message_id = 'thanks_3_message_id'
 
+payment_details_message_id = 'payment_details_message_id'
+quick_payment_message_id = 'quick_payment_message_id'
+
 _messages = {
     'eng': {
         request_screenshot_message_id: "Thank you for your donation! Let’s make a quick approval before you can see "
@@ -70,7 +73,15 @@ _messages = {
         thanks_1_message_id: "Wow! You've just shot the russian orc! Thank you for your donation!",
         thanks_2_message_id: "Thank you for investing in the peaceful future for Ukraine!",
         thanks_3_message_id: "By making this donation, you have confirmed your commitment to democratic values and "
-                             "justice! Thank you! "
+                             "justice! Thank you! ",
+
+        quick_payment_message_id: "Quick donation",
+        payment_details_message_id: "Payment details\n"
+                                    "\n"
+                                    "Bank card: {bank-card}\n"
+                                    "IBAN: {bank-iban}\n"
+                                    "\n"
+                                    "Use /attach_donation next"
     },
     'ua': {
         request_screenshot_message_id: "Дякуємо за твій донат! Давай зробимо швидке підтвердження, перш ніж ти "
@@ -107,7 +118,15 @@ _messages = {
         thanks_1_message_id: "Вітаємо! Ти щойно підстрелив орка! Дякуємо за твій донат",
         thanks_2_message_id: "Дякуємо за інвестицію у мирне майбутнє України! Твої відсотки у вигляді дерусифікованих "
                              "міст надійдуть зовсім скоро",
-        thanks_3_message_id: "Вау, так ти мочеш російську техніку не лише в ЄБайрактар! Дякуємо за донат!"
+        thanks_3_message_id: "Вау, так ти мочеш російську техніку не лише в ЄБайрактар! Дякуємо за донат!",
+
+        quick_payment_message_id: "Швидкий донат",
+        payment_details_message_id: "Реквізити для оплати\n"
+                                    "\n"
+                                    "Банківська картка: {bank-card}\n"
+                                    "IBAN: {bank-iban}"
+                                    "\n"
+                                    "Используйте /attach_donation далее"
     }
 }
 

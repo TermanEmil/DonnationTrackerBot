@@ -1,10 +1,11 @@
+import os
 import re
 from abc import ABC
 from datetime import datetime
 
 import pytz
 import telegram
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 
 from attachements import upload_attachment, AttachmentException
 from localization import localize, request_screenshot_message_id, localize_random_thank_you, \
@@ -13,7 +14,7 @@ from localization import localize, request_screenshot_message_id, localize_rando
     thanks_for_contacts_message_id, you_did_not_upload_confirmation_message_id, you_did_not_share_a_contact_message_id, \
     donation_status_first_day_message_id, donation_status_after_24h_message_id, donation_status_after_1week_message_id, \
     campaign_message_id, type_start_to_start_message_id, photo_not_attached_message_id, \
-    request_a_new_donation_message_id
+    request_a_new_donation_message_id, payment_details_message_id, quick_payment_message_id
 from session_handling import get_session, update_session
 from spreadsheets import add_to_spreadsheet_last_upload_data
 from telegram_bot import get_bot
@@ -86,6 +87,35 @@ class RequestNewDonation(FormStep):
             reply_markup=None)
 
     def handle(self, update: telegram.Update) -> str:
+        return HomeStep.__name__
+
+
+class SharePaymentDetails(FormStep):
+    def __init__(self, bot: telegram.Bot):
+        self.bot = bot
+
+    def request(self, update: telegram.Update):
+        pass
+
+    def handle(self, update: telegram.Update) -> str:
+        session = get_session(update.message.chat_id)
+        message = localize(session, payment_details_message_id)
+
+        message = message.replace('{bank-card}', os.environ.get('BANK_CARD'))
+        message = message.replace('{bank-iban}', os.environ.get('BANK_IBAN'))
+
+        quick_payment_button = InlineKeyboardButton(
+            text=localize(session, quick_payment_message_id),
+            url=os.environ.get('QUICK_PAYMENT_LINK'))
+        markup = InlineKeyboardMarkup(
+            [[quick_payment_button]],
+            one_time_keyboard=True,
+            resize_keyboard=True)
+
+        self.bot.send_message(
+            update.message.chat_id,
+            message,
+            reply_markup=markup)
         return HomeStep.__name__
 
 
@@ -279,6 +309,9 @@ def resolve_form_step(
 
     if form_step_name == RequestNewDonation.__name__:
         return RequestNewDonation(bot)
+
+    if form_step_name == SharePaymentDetails.__name__:
+        return SharePaymentDetails(bot)
 
     if form_step_name == RequestScreenshot.__name__:
         return RequestScreenshot(bot)
