@@ -5,9 +5,11 @@ import random
 
 
 request_screenshot_message_id = 'request_screenshot_message_id'
+photo_not_attached_message_id = 'photo_not_attached_message_id'
 thanks_for_upload_message_id = 'thanks_for_upload_message_id'
 request_contacts_message_id = 'request_contacts_message_id'
 no_need_for_confirmation_message_id = 'no_need_for_confirmation_message_id'
+request_a_new_donation_message_id = 'request_a_new_donation_message_id'
 
 thanks_for_contacts_message_id = 'thanks_for_contacts_message_id'
 
@@ -44,6 +46,9 @@ _messages = {
         no_need_for_confirmation_message_id: "I don’t need to be confirmed",
         thanks_for_contacts_message_id: "Thank you! You can check the status of your donation right here.",
 
+        photo_not_attached_message_id: "Photo not attached",
+        request_a_new_donation_message_id: "To start a new donation type /new_donation",
+
         donation_status_message_id: "Donation status",
         about_campaign_message_id: "About campaign",
         make_a_new_donation_message_id: "Make a new donation",
@@ -78,6 +83,9 @@ _messages = {
                                      " цього",
         no_need_for_confirmation_message_id: "Я не бажаю отримувати підтвердження",
         thanks_for_contacts_message_id: "Дякую! Ти можеш перевірити статус свого донату безпосередньо тут.",
+
+        photo_not_attached_message_id: "Фото не додається",
+        request_a_new_donation_message_id: "Чтобы начать новое пожертвование, введите /new_donation",
 
         donation_status_message_id: "Подивитися статус мого донату",
         about_campaign_message_id: "Про кампанію",

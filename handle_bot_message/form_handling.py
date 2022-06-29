@@ -12,7 +12,8 @@ from localization import localize, request_screenshot_message_id, localize_rando
     donation_status_message_id, about_campaign_message_id, make_a_new_donation_message_id, \
     thanks_for_contacts_message_id, you_did_not_upload_confirmation_message_id, you_did_not_share_a_contact_message_id, \
     donation_status_first_day_message_id, donation_status_after_24h_message_id, donation_status_after_1week_message_id, \
-    campaign_message_id, type_start_to_start_message_id
+    campaign_message_id, type_start_to_start_message_id, photo_not_attached_message_id, \
+    request_a_new_donation_message_id
 from session_handling import get_session, update_session
 from spreadsheets import add_to_spreadsheet_last_upload_data
 from telegram_bot import get_bot
@@ -50,12 +51,8 @@ class RequestToStart(FormStep):
 
 
 class RequestLanguage(FormStep):
-    def __init__(self, bot: telegram.Bot, next_step: str = None):
+    def __init__(self, bot: telegram.Bot):
         self.bot = bot
-        if next_step is None:
-            self.next_step = RequestScreenshot.__name__
-        else:
-            self.next_step = next_step
 
     def request(self, update: telegram.Update):
         markup = ReplyKeyboardMarkup([["UA", "ENG"]], one_time_keyboard=True, resize_keyboard=True)
@@ -73,7 +70,23 @@ class RequestLanguage(FormStep):
         session = get_session(update.message.chat_id)
         session.language = update.message.text.lower()
         update_session(session)
-        return self.next_step
+        return RequestNewDonation.__name__
+
+
+class RequestNewDonation(FormStep):
+    def __init__(self, bot: telegram.Bot):
+        self.bot = bot
+
+    def request(self, update: telegram.Update):
+        session = get_session(update.message.chat_id)
+
+        self.bot.send_message(
+            update.message.chat_id,
+            localize(session, request_a_new_donation_message_id),
+            reply_markup=None)
+
+    def handle(self, update: telegram.Update) -> str:
+        return HomeStep.__name__
 
 
 class RequestScreenshot(FormStep):
@@ -81,20 +94,38 @@ class RequestScreenshot(FormStep):
         self.bot = bot
 
     def request(self, update: telegram.Update):
+        pass
+
+    def handle(self, update: telegram.Update) -> str:
         session = get_session(update.message.chat_id)
         self.bot.send_message(
             update.message.chat_id,
             localize(session, request_screenshot_message_id),
             reply_markup=None)
+        return HandleScreenshot.__name__
+
+
+class HandleScreenshot(FormStep):
+    def __init__(self, bot: telegram.Bot):
+        self.bot = bot
+
+    def request(self, update: telegram.Update):
+        pass
 
     def handle(self, update: telegram.Update) -> str:
+        session = get_session(update.message.chat_id)
+
         if update.message.photo is None or len(update.message.photo) == 0:
+            self.bot.send_message(
+                update.message.chat_id,
+                str(localize(session, photo_not_attached_message_id)),
+                reply_markup=None)
             return self.__class__.__name__
 
         try:
             file_name, url = upload_attachment(update.message.photo)
         except AttachmentException as e:
-            get_bot().send_message(str(e))
+            self.bot.send_message(update.message.chat_id, str(e), reply_markup=None)
             return self.__class__.__name__
 
         session = get_session(update.message.chat_id)
@@ -234,7 +265,7 @@ class HomeStep(FormStep):
         pass
 
     def handle(self, update: telegram.Update) -> str:
-        return HomeStep.__name__
+        pass
 
 
 def resolve_form_step(
@@ -245,6 +276,9 @@ def resolve_form_step(
 
     if form_step_name == RequestLanguage.__name__:
         return RequestLanguage(bot)
+
+    if form_step_name == RequestNewDonation.__name__:
+        return RequestNewDonation(bot)
 
     if form_step_name == RequestScreenshot.__name__:
         return RequestScreenshot(bot)
@@ -260,5 +294,8 @@ def resolve_form_step(
 
     if form_step_name == AboutCampaign.__name__:
         return AboutCampaign(bot)
+
+    if form_step_name == HandleScreenshot.__name__:
+        return HandleScreenshot(bot)
 
     return HomeStep(bot)
