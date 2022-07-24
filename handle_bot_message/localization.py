@@ -128,7 +128,7 @@ _messages = {
                                     "Банківська картка: {bank-card}\n"
                                     "IBAN: {bank-iban}\n"
                                     "\n"
-                                    "Используйте /attach_donation далее"
+                                    "Обери /attach_donation далі"
     }
 }
 
