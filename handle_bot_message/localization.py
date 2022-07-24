@@ -50,7 +50,8 @@ _messages = {
         thanks_for_contacts_message_id: "Thank you! You can check the status of your donation using /donation_status",
 
         photo_not_attached_message_id: "Photo not attached",
-        request_a_new_donation_message_id: "To start a new donation type /new_donation",
+        request_a_new_donation_message_id: "In case you have already donated with us choose /attach_donation\n"
+                                           "If you’re willing to donate choose /new_donation",
 
         donation_status_message_id: "Donation status",
         about_campaign_message_id: "About campaign",
@@ -96,7 +97,8 @@ _messages = {
         thanks_for_contacts_message_id: "Дякую! Ти можеш перевірити статус свого донату используя /donation_status",
 
         photo_not_attached_message_id: "Фото не додається",
-        request_a_new_donation_message_id: "Чтобы начать новое пожертвование, введите /new_donation",
+        request_a_new_donation_message_id: "Якщо ти вже зробив донат з нами, обери /attach_donation\n"
+                                           "Якщо ти бажаєш зробити донат, обери /new_donation",
 
         donation_status_message_id: "Подивитися статус мого донату",
         about_campaign_message_id: "Про кампанію",
